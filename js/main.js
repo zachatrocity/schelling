@@ -7,22 +7,22 @@ $(document).ready(function(){
 	$("#boardSizePercentageText").val($("#boardSizePercentage").val());
 	$("#delayTimeText").val($("#delayTime").val());
 
-	$("#similarPercentage").change(function(){
+	$("#similarPercentage").on('input', function(){
 		$("#similarPercentageText").val($("#similarPercentage").val());
 	});
-	$("#redPercentage").change(function(){
+	$("#redPercentage").on('input', function(){
 		$("#redPercentageText").val($("#redPercentage").val());
 	});
-	$("#bluePercentage").change(function(){
+	$("#bluePercentage").on('input', function(){
 		$("#bluePercentageText").val($("#bluePercentage").val());
 	});
-	$("#emptyPercentage").change(function(){
+	$("#emptyPercentage").on('input', function(){
 		$("#emptyPercentageText").val($("#emptyPercentage").val());
 	});
-	$("#boardSizePercentage").change(function(){
+	$("#boardSizePercentage").on('input', function(){
 		$("#boardSizePercentageText").val($("#boardSizePercentage").val());
 	});
-	$("#delayTime").change(function(){
+	$("#delayTime").on('input', function(){
 		$("#delayTimeText").val($("#delayTime").val());
 	});
 });
