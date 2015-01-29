@@ -15,12 +15,43 @@
         <table>
         </table>
         <div id="controlBoard">
-            <div id="similarPercentage"></div>
-            <div id="redPercentage"></div>
-            <div id="bluePercentage"></div>
-            <div id="emptyPercentage"></div>
-            <div id="boardSizePercentage"></div>
-            <div id="delayTime"></div>
+        <table>
+            <tr>
+            <td>
+            <label for="similarPercentage">Similar:</label>
+            <input type="text" class="sliderText" id="similarPercentageText"></input>
+            <input type="range" id="similarPercentage" class="customSlider" value="" min="0" max="100" />
+            </td>
+            <td>
+            <label for="redPercentage">Red:</label>
+            <input type="text" class="sliderText" id="redPercentageText"></input>
+            <input type="range" id="redPercentage" class="customSlider" value="" min="0" max="100" />
+            </td>
+            <td>
+            <label for="bluePercentage">Blue:</label>
+            <input type="text" class="sliderText" id="bluePercentageText"></input>
+            <input type="range" id="bluePercentage" class="customSlider" value="" min="0" max="100" />
+            </td>
+            </tr>
+            <tr>
+            <td>
+            <label for="emptyPercentage">Empty:</label>
+            <input type="text" class="sliderText" id="emptyPercentageText"></input>
+            <input type="range" id="emptyPercentage" class="customSlider" value="" min="0" max="100" />
+            </td>
+            <td>
+            <label for="boardSizePercentage">Board Size:</label>
+            <input type="text" class="sliderText" id="boardSizePercentageText"></input>
+            <input type="range" id="boardSizePercentage" class="customSlider" value="" min="0" max="100" />
+            </td>
+            <td>
+            <label for="delayTime">Delay Time:</label>
+            <input type="text" class="sliderText" id="delayTimeText"></input>
+            <input type="range" id="delayTime" class="customSlider" value="" min="0" max="100" />
+            </td>
+            </tr>
+
+        </table>
         </div>
     </body>
 </html> 
