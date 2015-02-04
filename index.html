@@ -12,8 +12,13 @@
     </head>
     <body>
         <h1> Schelling Model of Segregation</h1>
-        <table>
-        </table>
+        <div class="board-container" id="gameboard-container">
+            <table class="board">
+                <tbody id="gameboard">
+
+                </tbody>
+            </table>
+        </div>
         <div id="controlBoard">
         <table>
             <tr>
@@ -25,30 +30,38 @@
             <td>
             <label for="redPercentage">Red:</label>
             <input type="text" class="sliderText" id="redPercentageText"></input>
-            <input type="range" id="redPercentage" class="customSlider" value="" min="0" max="100" />
+            <input type="range" id="redPercentage" class="customSlider" value="40" min="0" max="100" />
             </td>
             <td>
             <label for="bluePercentage">Blue:</label>
             <input type="text" class="sliderText" id="bluePercentageText"></input>
-            <input type="range" id="bluePercentage" class="customSlider" value="" min="0" max="100" />
+            <input type="range" id="bluePercentage" class="customSlider" value="40" min="0" max="100" />
             </td>
             </tr>
             <tr>
             <td>
             <label for="emptyPercentage">Empty:</label>
             <input type="text" class="sliderText" id="emptyPercentageText"></input>
-            <input type="range" id="emptyPercentage" class="customSlider" value="" min="0" max="100" />
+            <input type="range" id="emptyPercentage" class="customSlider" value="20" min="0" max="100" />
             </td>
             <td>
-            <label for="boardSizePercentage">Board Size:</label>
-            <input type="text" class="sliderText" id="boardSizePercentageText"></input>
-            <input type="range" id="boardSizePercentage" class="customSlider" value="" min="0" max="100" />
+            <label for="boardSize">Board Size:</label>
+            <input type="text" class="sliderText" id="boardSizeText"></input>
+            <input type="range" id="boardSize" class="customSlider" value="" min="0" max="10" />
             </td>
             <td>
             <label for="delayTime">Delay Time:</label>
             <input type="text" class="sliderText" id="delayTimeText"></input>
             <input type="range" id="delayTime" class="customSlider" value="" min="0" max="100" />
             </td>
+            </tr>
+            <tr>
+                <td>
+                <input type="button" id="startButton" value="Start"/>
+                <input type="button" id="stopButton" value="Stop"/>
+                <input type="button" id="stepButton" value="Step"/>
+                <input type="button" id="resetButton" value="Reset"/>
+                </td>
             </tr>
 
         </table>
