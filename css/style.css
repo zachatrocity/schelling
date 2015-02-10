@@ -12,6 +12,8 @@ body{
 
 .board{
   margin: 0 auto;
+  height: 500px; 
+  width: 500px;
 }
 
 td{
@@ -20,9 +22,9 @@ td{
 }
 
 .cell{
-  width: 25px;
-  height: 25px;
   border: 1px solid;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .blue{
@@ -35,6 +37,10 @@ td{
 
 .empty{
   background-color: white;
+}
+
+.moved{
+    
 }
 
 /* jquery slider custom
