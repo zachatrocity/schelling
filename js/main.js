@@ -100,14 +100,16 @@ var schelling = {
 		if (!schelling.boardSatisfied){//if board is not satisfied
 
 			schelling.moveUnsatisfiedToRandomEmpty(); //move them
-			schelling.unsatisfiedArray = []; //clear for next round
-
 			schelling.calcTotalSatisfiedPercentage();
+			schelling.unsatisfiedArray = []; //clear for next round
+			
 			schelling.currentRound += 1;
 			$("#currentRound").html(schelling.currentRound);
 		} else{
 			//everything is satisfied
+			schelling.enableControls();
 			clearInterval(schelling.gameInterval);
+			$("#satisfied").html("100%");
 		}
 	},
 
@@ -131,6 +133,7 @@ var schelling = {
 
 	startGame: function(){
 		if (schelling.gameInterval == 0){
+
 			schelling.gameInterval = setInterval(function(){schelling.makeRound();}, $("#delayTime").val());
 		}
 	},
@@ -152,7 +155,8 @@ var schelling = {
 		//clear scores
 		schelling.currentRound = 0;
 		$("#currentRound").html(0);
-		//start game
+		clearInterval(schelling.gameInterval);
+		schelling.gameInterval = 0;
 	},
 
 	//utility methods
@@ -187,6 +191,36 @@ var schelling = {
 			result = "red";
 		}
 		return result;
+	},
+
+	disableControls: function(){
+		$("#similarPercentage").attr("disabled", "true");
+		$("#redPercentage").attr("disabled", "true");
+		$("#bluePercentage").attr("disabled", "true");
+		$("#emptyPercentage").attr("disabled", "true");
+		$("#boardSize").attr("disabled", "true");
+		$("#delayTime").attr("disabled", "true");
+		$("#similarPercentageText").attr("disabled", "true")
+		$("#redPercentageText").attr("disabled", "true")
+		$("#bluePercentageText").attr("disabled", "true")
+		$("#emptyPercentageText").attr("disabled", "true")
+		$("#boardSizeText").attr("disabled", "true")
+		$("#delayTimeText").attr("disabled", "true")
+	},
+
+	enableControls: function(){
+		$("#similarPercentage").removeAttr("disabled");
+		$("#redPercentage").removeAttr("disabled");
+		$("#bluePercentage").removeAttr("disabled");
+		$("#emptyPercentage").removeAttr("disabled");
+		$("#boardSize").removeAttr("disabled");
+		$("#delayTime").removeAttr("disabled" );
+		$("#similarPercentageText").removeAttr("disabled");
+		$("#redPercentageText").removeAttr("disabled");
+		$("#bluePercentageText").removeAttr("disabled");
+		$("#emptyPercentageText").removeAttr("disabled");
+		$("#boardSizeText").removeAttr("disabled");
+		$("#delayTimeText").removeAttr("disabled");
 	}
 }
 
@@ -227,10 +261,12 @@ $(document).ready(function(){
 
 	$("#startButton").click(function(event) {
 		schelling.startGame();
+		schelling.disableControls();
 	});
 
 	$("#stopButton").click(function(event) {
 		schelling.stopGame();
+		schelling.enableControls();
 	});
 
 	$("#stepButton").click(function(event) {
@@ -240,6 +276,7 @@ $(document).ready(function(){
 	schelling.updateGameBoard($("#boardSize").val());
 
 	$("#resetButton").click(function(){
+		schelling.enableControls();
 		schelling.resetGame();
 	});
 
