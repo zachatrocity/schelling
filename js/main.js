@@ -225,6 +225,7 @@ var schelling = {
 }
 
 $(document).ready(function(){
+	$(document).tooltip();
 	$("#similarPercentageText").val($("#similarPercentage").val());
 	$("#redPercentageText").val($("#redPercentage").val());
 	$("#bluePercentageText").val($("#bluePercentage").val());
