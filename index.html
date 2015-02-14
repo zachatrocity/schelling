@@ -6,67 +6,64 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
-        <script src="js/jquery.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/main.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+        <script type="text/javascript"src="js/main.js"></script>
     </head>
     <body>
+        <div class="wrapper">
         <h1> Schelling Model of Segregation</h1>
-        <div class="board-container" id="gameboard-container">
+        <div class="board-container left" id="gameboard-container">
             <table class="board">
                 <tbody id="gameboard">
 
                 </tbody>
             </table>
-        </div>
-        <label for="currentRound">Round:</label>
-        <p id="currentRound">0</p>
-        <div id="controlBoard">
-        <table>
-            <tr>
-            <td>
-            <label for="similarPercentage">Similar:</label>
-            <input type="text" class="sliderText" id="similarPercentageText"></input>
-            <input type="range" id="similarPercentage" class="customSlider" value="" min="0" max="100" />
-            </td>
-            <td>
-            <label for="redPercentage">Red:</label>
-            <input type="text" class="sliderText" id="redPercentageText"></input>
-            <input type="range" id="redPercentage" class="customSlider" value="40" min="0" max="100" />
-            </td>
-            <td>
-            <label for="bluePercentage">Blue:</label>
-            <input type="text" class="sliderText" id="bluePercentageText"></input>
-            <input type="range" id="bluePercentage" class="customSlider" value="40" min="0" max="100" />
-            </td>
-            </tr>
-            <tr>
-            <td>
-            <label for="emptyPercentage">Empty:</label>
-            <input type="text" class="sliderText" id="emptyPercentageText"></input>
-            <input type="range" id="emptyPercentage" class="customSlider" value="20" min="0" max="100" />
-            </td>
-            <td>
-            <label for="boardSize">Board Size:</label>
-            <input type="text" class="sliderText" id="boardSizeText"></input>
-            <input type="range" id="boardSize" class="customSlider" value="" min="4" max="20" />
-            </td>
-            <td>
-            <label for="delayTime">Delay Time:</label>
-            <input type="text" class="sliderText" id="delayTimeText"></input>
-            <input type="range" id="delayTime" class="customSlider" value="" min="0" max="100" />
-            </td>
-            </tr>
-            <tr>
-                <td>
+        </div>   
+        <div id="controlBoard" class="right">
+        <ul>
+            <li>
+                <label for="similarity">Similarity:</label>
+                <text id="similarity">0</text>
+                <label for="currentRound">Round:</label>
+                <text id="currentRound">0</text>
+            </li>
+            <li>
+                <label for="similarPercentage">Similar:</label>
+                <input type="text" class="sliderText" id="similarPercentageText"></input>
+                <input type="range" id="similarPercentage" class="customSlider" value="" min="0" max="100" />
+            </li>
+            <li>
+                <label for="redPercentage">Red:</label>
+                <input type="text" class="sliderText" id="redPercentageText"></input>
+                <input type="range" id="redPercentage" class="customSlider" value="40" min="0" max="100" />
+            </li>
+            <li>
+                <label for="bluePercentage">Blue:</label>
+                <input type="text" class="sliderText" id="bluePercentageText"></input>
+                <input type="range" id="bluePercentage" class="customSlider" value="40" min="0" max="100" />
+            <li>
+                <label for="emptyPercentage">Empty:</label>
+                <input type="text" class="sliderText" id="emptyPercentageText"></input>
+                <input type="range" id="emptyPercentage" class="customSlider" value="20" min="0" max="100" />
+            </li>
+            <li>
+                <label for="boardSize">Board Size:</label>
+                <input type="text" class="sliderText" id="boardSizeText"></input>
+                <input type="range" id="boardSize" class="customSlider" value="" min="4" max="20" />
+            </li>
+            <li>
+                <label for="delayTime">Delay Time:</label>
+                <input type="text" class="sliderText" id="delayTimeText"></input>
+                <input type="range" id="delayTime" class="customSlider" value="" min="0" max="100" />
+            <li>
                 <input type="button" id="startButton" value="Start"/>
                 <input type="button" id="stopButton" value="Stop"/>
                 <input type="button" id="stepButton" value="Step"/>
                 <input type="button" id="resetButton" value="Reset"/>
-                </td>
-            </tr>
-
-        </table>
+            </li>
+        </ul>
+        </div>
         </div>
     </body>
 </html> 

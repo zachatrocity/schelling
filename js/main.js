@@ -5,7 +5,10 @@ var schelling = {
 	satisfiedPercentage: 0,
 	sizeOfBoard: 0,
 	percentSimilar: 0,
+	agentSatisfiedPercentage: 0,
+	stopButtonPressed: false,
 	unsatisfiedArray: [], 
+	emptyArray: [],
 	currentRound: 0,
 
 	//methods
@@ -33,6 +36,9 @@ var schelling = {
 				}
 			};
 		};
+
+		schelling.calcTotalSatisfiedPercentage();
+		$("#similarity").html(schelling.agentSatisfiedPercentage);
 	}, 
 
 	isSatisfied: function(atRow, atCol){
@@ -62,47 +68,100 @@ var schelling = {
 		if(simPer >= $("#similarPercentage")){
 			//satisfied
 		} else{
-			schelling.unsatisfiedArray.push([atRow,atCol]);
+			schelling.unsatisfiedArray.push($("#pos-" +atRow + "-" + atCol));
 		}
 	},
 
 	makeRound: function(){
 		for (var row = 0; row < schelling.sizeOfBoard; row++) {
 			for (var col = 0; col < schelling.sizeOfBoard; col++) {
-				if(!schelling.isSatisfied(row,col)){
-					//do nothing
-				} else{
-					//add to list of unsatisfied
-					schelling.unsatisfiedArray.push([row,col]);
+				if($("#pos-" +row + "-" + col).hasClass('empty')){
+					schelling.emptyArray.push($("#pos-" +row + "-" + col));
+				}
+				else{
+					schelling.isSatisfied(row,col);
 				}
 			};
 		};
 
+		schelling.moveUnsatisfiedToRandomEmpty();
+		schelling.unsatisfiedArray = [];
+
+		schelling.calcTotalSatisfiedPercentage()
+		$("#similarity").html(schelling.agentSatisfiedPercentage);
+
 		schelling.currentRound += 1;
-		$("currentRound").text(schelling.currentRound);
+		$("#currentRound").html(schelling.currentRound);
 	},
 
-	satisfyAgents: function(){
-		var currentCell = $("#pos-" + row + "-" + col);
-		var currentCellColor = schelling.colorOfAgent(row,col);
-
-		while(!currentCell.hasClass('empty')){
-			var randRow = Math.floor(Math.random() * schelling.boardSize) + 1;
-			var randCol = Math.floor(Math.random() * schelling.boardSize) + 1;
-			if($("#pos-" +randRow + "-" + randCol).hasClass('empty')){
-				currentCell.removeClass(currentCellColor);
-				$("#pos-" +randRow + "-" + randCol).removeClass('empty');
-				$("#pos-" +randRow + "-" + randCol).addClass(currentCellColor);
+	moveUnsatisfiedToRandomEmpty: function(){
+		$.each(schelling.unsatisfiedArray, function(index, val) {
+			var tdColor = schelling.colorOfAgentFromObj(val);
+			var rand = Math.floor(Math.random()*schelling.emptyArray.length);
+			var randomEmptyTd = schelling.emptyArray[rand];
+			//remove element from the empty array
+			if(rand > -1){
+				schelling.emptyArray.splice(rand, 1);
 			}
+
+			randomEmptyTd.removeClass('empty');
+			randomEmptyTd.addClass(tdColor);
+			val.removeClass(tdColor);
+			val.addClass('empty');
+			schelling.emptyArray.push(val);
+		});
+
+		schelling.emptyArray = [];
+	},
+
+	calcTotalSatisfiedPercentage: function(){
+		var occupied = 0;
+		var similar = 0;
+		//make array of n,s,e,w,nw,ne, etc..
+		for (var row = 0; row < schelling.sizeOfBoard; row++) {
+			for (var col = 0; col < schelling.sizeOfBoard; col++) {
+				var curColor = schelling.colorOfAgent(row, col);
+				var tdAdjacencies = [($("#pos-" + (row - 1) + "-" + col)),
+									 ($("#pos-" + (row - 1) + "-" + (col + 1))),
+									 ($("#pos-" + row + "-" + (col + 1))),
+									 ($("#pos-" + (row + 1) + "-" + (col + 1))),
+									 ($("#pos-" + (row + 1) + "-" + col)),
+									 ($("#pos-" + (row + 1) + "-" + (col - 1))),
+									 ($("#pos-" + row + "-" + (col - 1))),
+									 ($("#pos-" + (row - 1) + "-" + (col - 1)))];
+
+				$.each(tdAdjacencies, function(index, val) {
+					if(!val.hasClass('empty') && val.hasClass('cell')){
+						occupied++;
+						if (val.hasClass(curColor)) {
+							similar++;
+						};
+					}
+				});	
+			}
+		}
+
+		if (occupied == 0) {
+			schelling.agentSatisfiedPercentage = 100;
+		} else{
+			schelling.agentSatisfiedPercentage = Math.floor((similar/occupied) * 100) + "%";
 		}
 	},
 
 	startGame: function(){
+		schelling.stopButtonPressed = false;
+		setInterval(function(){
+			schelling.makeRound();
 
+			if(schelling.agentSatisfiedPercentage == "100%" || !schelling.stopButtonPressed){
+				clearInterval();
+			}
+
+		}, $("#delayTime").val());
 	},
 
 	stopGame: function(){
-
+		schelling.stopButtonPressed = true;
 	},
 
 
@@ -111,7 +170,7 @@ var schelling = {
 		//update board
 		schelling.updateGameBoard($("#boardSize").val());
 		//clear scores
-
+		$("#currentRound").html(0);
 		//start game
 	},
 
@@ -125,6 +184,18 @@ var schelling = {
 		}
 		return result;
 	},
+
+	colorOfAgentFromObj: function(element){
+		var result = "";
+
+		if (element.hasClass('blue')){
+			result = "blue";
+		} else if (element.hasClass('red')){
+			result = "red";
+		}
+		return result;
+	},
+
 	colorOfAgent: function(row, col){
 		var result = "";
 		var element = $("#pos-" + row + "-" + col);

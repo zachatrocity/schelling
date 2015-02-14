@@ -2,8 +2,26 @@ body{
   text-align: center;
 }
 
+ul{
+  list-style-type: none;
+  text-align: right;
+}
+
+li{
+  padding: 10px;
+}
+
 #controlBoard{
-  padding-left: 1em;
+}
+
+.left, .right{
+  float: left;
+}
+
+.wrapper{
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
 }
 
 .sliderText{
@@ -11,9 +29,15 @@ body{
 }
 
 .board{
-  margin: 0 auto;
+  margin-left: 25px;
   height: 500px; 
   width: 500px;
+}
+
+.board-container{
+  width:550px;
+  height: 550px;
+  margin: 0;
 }
 
 td{
