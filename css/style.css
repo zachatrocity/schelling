@@ -5,6 +5,7 @@ body{
 ul{
   list-style-type: none;
   text-align: right;
+  padding-right: 25px;
 }
 
 li{
@@ -16,6 +17,14 @@ li{
 
 .left, .right{
   float: left;
+}
+
+.right{
+  width: 50%;
+}
+
+.left{
+  width: 50%;
 }
 
 .wrapper{
@@ -30,8 +39,8 @@ li{
 
 .board{
   margin-left: 25px;
-  height: 500px; 
-  width: 500px;
+  height: 600px; 
+  width: 600px;
 }
 
 .board-container{
@@ -42,7 +51,7 @@ li{
 
 td{
   text-align: right;
-  padding: 10px;
+  padding: 2px;
 }
 
 .cell{

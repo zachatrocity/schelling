@@ -15,9 +15,9 @@ of the number of each type of different square. Once the slider is moved the num
  of similar blocks to the one selected must match the percent similar. If it does not meet that percentage than it is 
  considered not satisfied.
 
-3. No bugs
+3. No bugs that we know of.
 
-4. Zach did the Initial Setup and customized the sliders, the remainder was done by peer programming taking turns typing and reviewing.
+4. Zach did the Initial Setup and customized the sliders, the remainder was done by pair programming taking turns typing and reviewing.
 
 5. (52% Zach , 48% Jake)
  

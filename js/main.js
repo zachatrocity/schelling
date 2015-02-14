@@ -6,10 +6,11 @@ var schelling = {
 	sizeOfBoard: 0,
 	percentSimilar: 0,
 	agentSatisfiedPercentage: 0,
-	stopButtonPressed: false,
 	unsatisfiedArray: [], 
 	emptyArray: [],
 	currentRound: 0,
+	boardSatisfied: false,
+	gameInterval: 0,
 
 	//methods
 	updateGameBoard: function(size){
@@ -37,139 +38,119 @@ var schelling = {
 			};
 		};
 
+		schelling.findUnsatisfiedCells()
 		schelling.calcTotalSatisfiedPercentage();
-		$("#similarity").html(schelling.agentSatisfiedPercentage);
+		schelling.emptyArray = [];
+		schelling.unsatisfiedArray = [];
+		clearInterval(schelling.gameInterval);
+		schelling.gameInterval = 0;
 	}, 
 
-	isSatisfied: function(atRow, atCol){
+	findUnsatisfiedCells: function(){
 		var occupied = 0;
 		var similar = 0;
-		var curColor = schelling.colorOfAgent(atRow, atCol);
-		//make array of n,s,e,w,nw,ne, etc..
-		var tdAdjacencies = [($("#pos-" + (atRow - 1) + "-" + atCol)),
-							 ($("#pos-" + (atRow - 1) + "-" + (atCol + 1))),
-							 ($("#pos-" + atRow + "-" + (atCol + 1))),
-							 ($("#pos-" + (atRow + 1) + "-" + (atCol + 1))),
-							 ($("#pos-" + (atRow + 1) + "-" + atCol)),
-							 ($("#pos-" + (atRow + 1) + "-" + (atCol - 1))),
-							 ($("#pos-" + atRow + "-" + (atCol - 1))),
-							 ($("#pos-" + (atRow - 1) + "-" + (atCol - 1)))];
 
-		$.each(tdAdjacencies, function(index, val) {
-			if(!val.hasClass('empty') && val.hasClass('cell')){
-				occupied++;
-				if (val.hasClass(curColor)) {
-					similar++;
-				};
+		for (var atRow = 0; atRow < schelling.sizeOfBoard; atRow++) {
+			for (var atCol = 0; atCol < schelling.sizeOfBoard; atCol++) {
+				if(!$("#pos-" +atRow + "-" + atCol).hasClass('empty')){
+					var curColor = schelling.colorOfAgent(atRow, atCol);
+					//make array of n,s,e,w,nw,ne, etc..
+					var tdAdjacencies = [($("#pos-" + (atRow - 1) + "-" + atCol)),
+										 ($("#pos-" + (atRow - 1) + "-" + (atCol + 1))),
+										 ($("#pos-" + atRow + "-" + (atCol + 1))),
+										 ($("#pos-" + (atRow + 1) + "-" + (atCol + 1))),
+										 ($("#pos-" + (atRow + 1) + "-" + atCol)),
+										 ($("#pos-" + (atRow + 1) + "-" + (atCol - 1))),
+										 ($("#pos-" + atRow + "-" + (atCol - 1))),
+										 ($("#pos-" + (atRow - 1) + "-" + (atCol - 1)))];
+
+					$.each(tdAdjacencies, function(index, val) {
+						if(!val.hasClass('empty') && val.hasClass('cell')){
+							occupied++;
+							if (val.hasClass(curColor)) {
+								similar++;
+							};
+						}
+					});	
+
+					var simPer = (similar/occupied) * 100;
+					if(simPer >= $("#similarPercentage").val()){
+						//satisfied
+					} else{
+						schelling.unsatisfiedArray.push($("#pos-" +atRow + "-" + atCol));
+					}
+
+					similar = 0;
+					occupied = 0;
+				} else{
+					schelling.emptyArray.push($("#pos-" +atRow + "-" + atCol));
+				}
 			}
-		});	
+		}
 
-		var simPer = (similar/occupied) * 100;
-		if(simPer >= $("#similarPercentage")){
-			//satisfied
-		} else{
-			schelling.unsatisfiedArray.push($("#pos-" +atRow + "-" + atCol));
+		if(schelling.unsatisfiedArray.length > 0)
+			schelling.boardSatisfied = false;
+		else{
+			schelling.boardSatisfied = true;
 		}
 	},
 
 	makeRound: function(){
-		for (var row = 0; row < schelling.sizeOfBoard; row++) {
-			for (var col = 0; col < schelling.sizeOfBoard; col++) {
-				if($("#pos-" +row + "-" + col).hasClass('empty')){
-					schelling.emptyArray.push($("#pos-" +row + "-" + col));
-				}
-				else{
-					schelling.isSatisfied(row,col);
-				}
-			};
-		};
+		schelling.findUnsatisfiedCells();
+		if (!schelling.boardSatisfied){//if board is not satisfied
 
-		schelling.moveUnsatisfiedToRandomEmpty();
-		schelling.unsatisfiedArray = [];
+			schelling.moveUnsatisfiedToRandomEmpty(); //move them
+			schelling.unsatisfiedArray = []; //clear for next round
 
-		schelling.calcTotalSatisfiedPercentage()
-		$("#similarity").html(schelling.agentSatisfiedPercentage);
-
-		schelling.currentRound += 1;
-		$("#currentRound").html(schelling.currentRound);
+			schelling.calcTotalSatisfiedPercentage();
+			schelling.currentRound += 1;
+			$("#currentRound").html(schelling.currentRound);
+		} else{
+			//everything is satisfied
+			clearInterval(schelling.gameInterval);
+		}
 	},
 
 	moveUnsatisfiedToRandomEmpty: function(){
-		$.each(schelling.unsatisfiedArray, function(index, val) {
-			var tdColor = schelling.colorOfAgentFromObj(val);
+		for (var i = 0; i < schelling.unsatisfiedArray.length; i++){
+			var td = schelling.unsatisfiedArray[i];
+			var tdColor = schelling.colorOfAgentFromObj(td);
 			var rand = Math.floor(Math.random()*schelling.emptyArray.length);
 			var randomEmptyTd = schelling.emptyArray[rand];
-			//remove element from the empty array
-			if(rand > -1){
-				schelling.emptyArray.splice(rand, 1);
-			}
+			//remove element from the empty array and unsatisfied array
 
 			randomEmptyTd.removeClass('empty');
 			randomEmptyTd.addClass(tdColor);
-			val.removeClass(tdColor);
-			val.addClass('empty');
-			schelling.emptyArray.push(val);
-		});
+			td.removeClass(tdColor);
+			td.addClass('empty');
+			schelling.emptyArray[rand] = td;
+		}
 
 		schelling.emptyArray = [];
 	},
 
-	calcTotalSatisfiedPercentage: function(){
-		var occupied = 0;
-		var similar = 0;
-		//make array of n,s,e,w,nw,ne, etc..
-		for (var row = 0; row < schelling.sizeOfBoard; row++) {
-			for (var col = 0; col < schelling.sizeOfBoard; col++) {
-				var curColor = schelling.colorOfAgent(row, col);
-				var tdAdjacencies = [($("#pos-" + (row - 1) + "-" + col)),
-									 ($("#pos-" + (row - 1) + "-" + (col + 1))),
-									 ($("#pos-" + row + "-" + (col + 1))),
-									 ($("#pos-" + (row + 1) + "-" + (col + 1))),
-									 ($("#pos-" + (row + 1) + "-" + col)),
-									 ($("#pos-" + (row + 1) + "-" + (col - 1))),
-									 ($("#pos-" + row + "-" + (col - 1))),
-									 ($("#pos-" + (row - 1) + "-" + (col - 1)))];
-
-				$.each(tdAdjacencies, function(index, val) {
-					if(!val.hasClass('empty') && val.hasClass('cell')){
-						occupied++;
-						if (val.hasClass(curColor)) {
-							similar++;
-						};
-					}
-				});	
-			}
-		}
-
-		if (occupied == 0) {
-			schelling.agentSatisfiedPercentage = 100;
-		} else{
-			schelling.agentSatisfiedPercentage = Math.floor((similar/occupied) * 100) + "%";
-		}
-	},
-
 	startGame: function(){
-		schelling.stopButtonPressed = false;
-		setInterval(function(){
-			schelling.makeRound();
-
-			if(schelling.agentSatisfiedPercentage == "100%" || !schelling.stopButtonPressed){
-				clearInterval();
-			}
-
-		}, $("#delayTime").val());
+		if (schelling.gameInterval == 0){
+			schelling.gameInterval = setInterval(function(){schelling.makeRound();}, $("#delayTime").val());
+		}
 	},
 
 	stopGame: function(){
-		schelling.stopButtonPressed = true;
+		clearInterval(schelling.gameInterval);
+		schelling.gameInterval = 0;
 	},
 
-
+	calcTotalSatisfiedPercentage: function(){
+		var totalTds = $("#boardSize").val() * $("#boardSize").val();
+			schelling.agentSatisfiedPercentage = (totalTds - schelling.unsatisfiedArray.length) / totalTds;
+			$("#satisfied").html(Math.floor(schelling.agentSatisfiedPercentage * 100) + "%");
+	},
 
 	resetGame: function(){
 		//update board
 		schelling.updateGameBoard($("#boardSize").val());
 		//clear scores
+		schelling.currentRound = 0;
 		$("#currentRound").html(0);
 		//start game
 	},

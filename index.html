@@ -23,25 +23,25 @@
         <div id="controlBoard" class="right">
         <ul>
             <li>
-                <label for="similarity">Similarity:</label>
-                <text id="similarity">0</text>
+                <label for="satisfied">Satisfied:</label>
+                <text id="satisfied">0</text>
                 <label for="currentRound">Round:</label>
                 <text id="currentRound">0</text>
             </li>
             <li>
                 <label for="similarPercentage">Similar:</label>
                 <input type="text" class="sliderText" id="similarPercentageText"></input>
-                <input type="range" id="similarPercentage" class="customSlider" value="" min="0" max="100" />
+                <input type="range" id="similarPercentage" class="customSlider" value="30" min="0" max="100" />
             </li>
             <li>
                 <label for="redPercentage">Red:</label>
                 <input type="text" class="sliderText" id="redPercentageText"></input>
-                <input type="range" id="redPercentage" class="customSlider" value="40" min="0" max="100" />
+                <input type="range" id="redPercentage" class="customSlider" value="" min="0" max="100" />
             </li>
             <li>
                 <label for="bluePercentage">Blue:</label>
                 <input type="text" class="sliderText" id="bluePercentageText"></input>
-                <input type="range" id="bluePercentage" class="customSlider" value="40" min="0" max="100" />
+                <input type="range" id="bluePercentage" class="customSlider" value="" min="0" max="100" />
             <li>
                 <label for="emptyPercentage">Empty:</label>
                 <input type="text" class="sliderText" id="emptyPercentageText"></input>
@@ -50,12 +50,12 @@
             <li>
                 <label for="boardSize">Board Size:</label>
                 <input type="text" class="sliderText" id="boardSizeText"></input>
-                <input type="range" id="boardSize" class="customSlider" value="" min="4" max="20" />
+                <input type="range" id="boardSize" class="customSlider" value="15" min="10" max="50" />
             </li>
             <li>
                 <label for="delayTime">Delay Time:</label>
                 <input type="text" class="sliderText" id="delayTimeText"></input>
-                <input type="range" id="delayTime" class="customSlider" value="" min="0" max="100" />
+                <input type="range" id="delayTime" class="customSlider" value="200" min="0" max="3000" step="100"/>
             <li>
                 <input type="button" id="startButton" value="Start"/>
                 <input type="button" id="stopButton" value="Stop"/>
